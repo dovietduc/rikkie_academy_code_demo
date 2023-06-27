@@ -264,6 +264,26 @@ function countOcerence2(nameString) {
 
 countOcerence2('ddadacoc');
 
+// tổng bàng 10
+function sumTwoNumber(arrNumber, total) {
+    let result = [];
+    for(let i = 0; i < arrNumber.length; i++) {
+
+        for(let j = i + 1; j < arrNumber.length; j++) {
+
+            if(i !== j && total === arrNumber[i] + arrNumber[j]) {
+                result.push([arrNumber[i], arrNumber[j]]);
+            }
+
+        }
+
+
+    }
+    return result;
+}
+
+console.log(sumTwoNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 10));
+
 
 
 
