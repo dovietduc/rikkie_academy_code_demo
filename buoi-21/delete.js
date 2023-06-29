@@ -46,8 +46,6 @@ function deleteTodo(id) {
 
 deleteTodo(2);
 
-
-
 // let arr = [
 //     1,
 //     2, 
