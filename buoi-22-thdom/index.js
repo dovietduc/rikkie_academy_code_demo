@@ -48,16 +48,48 @@ function handleAddTodo() {
     // 2. đưa input vào trong todos
     if(valueInput) {
 
-        let objNewAdd = {
-            id: todos.length + 1,
-            name: valueInput
+        // sửa dữ liệu
+        if(addButton.classList.contains('update')) {
+            // 1. Lấy ra id update
+            let idUpdate = addButton.getAttribute('data-id');
+            // 2. Lấy ra index cần update
+            let indexUpdate;
+            for(let i = 0; i < todos.length; i++) {
+                if(todos[i].id === +idUpdate) {
+                    indexUpdate = i;
+                    break;
+                }
+            }
+            // 3. cập nhật value name tại index
+            todos[indexUpdate].name = valueInput;
+            // 4. render data
+            showTodos();
+            // 5. reset to status add
+            // 5.1 xóa class update
+            addButton.classList.remove('update');
+            // 5.2 Cập nhật text cho ui
+            addButton.innerText = 'Add';
+            // 5.3 Xóa data-id ở button add
+            addButton.removeAttribute('data-id');
+            // 5.4 reset value input
+            inputSelector.value = '';
+
+
+        } 
+        // Thêm dữ liệu
+        else {
+            let objNewAdd = {
+                id: todos.length + 1,
+                name: valueInput
+            }
+            // Thêm objNewAdd vào mảng
+            todos.push(objNewAdd);
+            // 3. render lại dữ liệu theo todos
+            showTodos();
+            // 4. reset value input
+            inputSelector.value = '';
         }
-        // Thêm objNewAdd vào mảng
-        todos.push(objNewAdd);
-        // 3. render lại dữ liệu theo todos
-        showTodos();
-        // 4. reset value input
-        inputSelector.value = '';
+       
     }
    
     
@@ -70,6 +102,8 @@ addButton.addEventListener('click', handleAddTodo);
 function handleProcessTodo(event) {
     // lấy ra object element đang click
     let clicked = event.target;
+
+    // delete logic
     if(clicked.classList.contains('close')) {
         let idDelete = clicked.getAttribute('data-id');
         // 1. Tìm ra index cần xóa
@@ -85,6 +119,41 @@ function handleProcessTodo(event) {
         todos.splice(indexFind, 1);
         // 3. render lại dữ liệu
         showTodos();
+        
+        // 5. reset to status add
+        // 5.1 xóa class update
+        addButton.classList.remove('update');
+        // 5.2 Cập nhật text cho ui
+        addButton.innerText = 'Add';
+        // 5.3 Xóa data-id ở button add
+        addButton.removeAttribute('data-id');
+        // 5.4 reset value input
+        inputSelector.value = '';
+    } 
+    // edit logic show data
+    else if(clicked.classList.contains('edit')) {
+        // 1. Lấy ra id edi
+        let idEdit = clicked.getAttribute('data-id');
+        // 2. Lấy ra index của object edit
+        let indexEdit;
+        for(let i = 0; i < todos.length; i++) {
+            if(todos[i].id === +idEdit) {
+                indexEdit = i;
+                break;
+            }
+        }
+        // 3. Lấy ra name của object
+        let objectEdit = todos[indexEdit];
+        // 4. set value name cho input
+        inputSelector.value = objectEdit.name;
+        // 5. Thêm class để biêt click vào là edit
+        // Để phân biệt click vào add hay update
+        addButton.classList.add('update');
+        // Để cho người dùng nhận diện hình ảnh
+        addButton.innerText = 'Update';
+        // Để biết cập nhật id nào
+        addButton.setAttribute('data-id', idEdit);
+
     }
    
 }
