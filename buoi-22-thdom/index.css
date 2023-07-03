@@ -117,3 +117,13 @@ input {
     width: 1200px;
     margin: 0 auto;
 }
+
+.edit {
+    position: absolute;
+    right: 50px;
+    top: 0;
+    padding: 12px 16px 12px 16px;
+}
+.edit:hover {
+    background-color: rgb(123, 101, 244);
+}

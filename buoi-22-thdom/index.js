@@ -21,8 +21,9 @@ function showTodos() {
     for(let i = 0; i < todos.length; i++) {
         // Nối chuỗi tạo ra các li bọc todo name
         liResult = liResult + `<li>
-        ${todos[i].name}
-        <span data-id="${todos[i].id}" class="close">×</span>
+            ${todos[i].name}
+            <span data-id="${todos[i].id}" class="edit">Edit</span>
+            <span data-id="${todos[i].id}" class="close">×</span>
         </li>`;
     }
     
@@ -66,37 +67,30 @@ addButton.addEventListener('click', handleAddTodo);
 
 
 // delete todos
-let buttonDeleteAll = document.querySelectorAll('.close');
-
-function handleDeleteTodo(event) {
+function handleProcessTodo(event) {
     // lấy ra object element đang click
     let clicked = event.target;
-    let idDelete = clicked.getAttribute('data-id');
-    // 1. Tìm ra index cần xóa
-    let indexFind;
-    for(let i = 0; i < todos.length; i++) {
-        if(todos[i].id === +idDelete) {
-            indexFind = i;
-            break;
+    if(clicked.classList.contains('close')) {
+        let idDelete = clicked.getAttribute('data-id');
+        // 1. Tìm ra index cần xóa
+        let indexFind;
+        for(let i = 0; i < todos.length; i++) {
+            if(todos[i].id === +idDelete) {
+                indexFind = i;
+                break;
+            }
         }
+        
+        // 2. Tiến hành xóa trong mảng
+        todos.splice(indexFind, 1);
+        // 3. render lại dữ liệu
+        showTodos();
     }
-    
-    // 2. Tiến hành xóa trong mảng
-    todos.splice(indexFind, 1);
-    // 3. render lại dữ liệu
-    showTodos();
    
 }
 
-// Thêm sự kiện click nút xóa cho từng button
-for(let i = 0; i < buttonDeleteAll.length; i++) {
-    let elementObject = buttonDeleteAll[i];
-    // Thêm sự kiện click nút xóa cho từng button
-    elementObject.addEventListener('click', handleDeleteTodo);
-}
-
-
-// Dừng lại, không xóa được khi thay đổi DOM -> Hôm sau sẽ có lí thuyết + apply khắc phục
+let ulParent = document.querySelector('#myUL');
+ulParent.addEventListener('click', handleProcessTodo);
 
 
 
