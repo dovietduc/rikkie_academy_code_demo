@@ -79,7 +79,7 @@ function handleAddTodo() {
         // Thêm dữ liệu
         else {
             let objNewAdd = {
-                id: todos.length + 1,
+                id: Date.now(),
                 name: valueInput
             }
             // Thêm objNewAdd vào mảng

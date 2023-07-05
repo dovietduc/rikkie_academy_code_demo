@@ -1,0 +1,40 @@
+.container {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.wrapper_input_data {
+    background-color: red;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.input_data {
+    padding: 7px;
+    width: 80%;
+    box-sizing: border-box;
+}
+
+.btn {
+    width: 20%;
+    padding: 7px;
+    box-sizing: border-box;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+.content_data ul li {
+    list-style: none;
+    padding: 15px 10px;
+    background: #b3b1b1;
+    font-size: 20px;
+}
+
+.content_data ul li:nth-child(even){
+    background: #d9d4d4;
+}
