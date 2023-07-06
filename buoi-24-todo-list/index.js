@@ -1,12 +1,5 @@
-// 1. Các câu lệnh selector 
-
-
-
-// 2. Define các hàm handle event
-
-
-
-
-
-
-// 3. Các eventhandle cho các object
+// Bài tập:
+// Hãy lấy giá trị value của form có :
+// select
+// radio
+// checkbox

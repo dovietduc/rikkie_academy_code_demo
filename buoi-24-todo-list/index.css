@@ -33,8 +33,34 @@ ul {
     padding: 15px 10px;
     background: #b3b1b1;
     font-size: 20px;
+    position: relative;
 }
 
 .content_data ul li:nth-child(even){
     background: #d9d4d4;
 }
+
+.content_data ul li .delete {
+    position: absolute;
+    right: 10px;
+    padding: 10px;
+    top: 5px;
+}
+
+.content_data ul li .delete:hover {
+    background-color: red;
+    cursor: pointer;
+}
+
+.content_data ul li .edit {
+    position: absolute;
+    right: 80px;
+    padding: 10px;
+    top: 5px;
+}
+
+.content_data ul li .edit:hover {
+    background-color: rgb(61, 154, 188);
+    cursor: pointer;
+}
+
