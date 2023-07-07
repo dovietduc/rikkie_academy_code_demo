@@ -13,7 +13,7 @@ let inputSearch = document.querySelector('.search input');
 
 let students = [
     {
-        id: 1,
+        id: crypto.randomUUID(),
         name: 'a',
         email: 'vietduc122@gmail.com',
         phone: '092487777',
@@ -21,7 +21,7 @@ let students = [
         sex: 'Nam'
     },
     {
-        id: 2,
+        id: crypto.randomUUID(),
         name: 'b',
         email: 'vietduc122@gmail.com',
         phone: '092487777',
@@ -29,7 +29,7 @@ let students = [
         sex: 'Nam'
     },
     {
-        id: 3,
+        id: crypto.randomUUID(),
         name: 'c',
         email: 'vietduc122@gmail.com',
         phone: '092487777',
@@ -37,7 +37,7 @@ let students = [
         sex: 'Nam'
     },
     {
-        id: 4,
+        id: crypto.randomUUID(),
         name: 'f',
         email: 'vietduc122@gmail.com',
         phone: '092487777',
@@ -85,7 +85,7 @@ function handleAddStudent(event) {
         // 3. lấy ra index object update
         let indexEdit;
         for (let i = 0; i < students.length; i++) {
-            if (students[i].id === +idUpdate) {
+            if (students[i].id === idUpdate) {
                 indexEdit = i;
                 break;
             }
@@ -111,7 +111,7 @@ function handleAddStudent(event) {
         document.querySelector('.list_header').innerText = 'Danh sách sinh viên';
         // 2. đưa giá trị input vào object, sau đó push vào mảng students
         let objStudentAdd = {
-            id: Date.now(),
+            id: crypto.randomUUID(),
             name: name,
             email: email,
             address: address,
@@ -139,7 +139,7 @@ function handleProcessStudent(event) {
             // 2. tìm index
             let indexDelete;
             for (let i = 0; i < students.length; i++) {
-                if (students[i].id === +idDelete) {
+                if (students[i].id === idDelete) {
                     indexDelete = i;
                     break;
                 }
@@ -169,7 +169,7 @@ function handleProcessStudent(event) {
         // 2. tìm index
         let indexEdit;
         for (let i = 0; i < students.length; i++) {
-            if (students[i].id === +idEdit) {
+            if (students[i].id === idEdit) {
                 indexEdit = i;
                 break;
             }
@@ -274,3 +274,4 @@ sortButtonVn.addEventListener('click', handleSortStudentVn);
 btnSearch.addEventListener('click', handleSearch);
 // Thêm sự kiện nhập trong ô input thì cũng chạy hàm này
 inputSearch.addEventListener('keyup', handleSearch);
+
