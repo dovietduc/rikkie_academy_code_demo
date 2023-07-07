@@ -5,12 +5,16 @@ let nameSelector = document.querySelector('#name');
 let emailSelector = document.querySelector('#email');
 let phoneSelector = document.querySelector('#phone');
 let addressSelector = document.querySelector('#address');
+let sortButton = document.querySelector('.sort_name');
+let sortButtonVn = document.querySelector('.sort_name_vn');
+let btnSearch = document.querySelector('.btn_search');
+let inputSearch = document.querySelector('.search input');
 
 
 let students = [
     {
         id: 1,
-        name: 'Đức Đỗ',
+        name: 'a',
         email: 'vietduc122@gmail.com',
         phone: '092487777',
         address: 'Thanh Hóa',
@@ -18,7 +22,23 @@ let students = [
     },
     {
         id: 2,
-        name: 'Đức Đỗ 2',
+        name: 'b',
+        email: 'vietduc122@gmail.com',
+        phone: '092487777',
+        address: 'Thanh Hóa',
+        sex: 'Nam'
+    },
+    {
+        id: 3,
+        name: 'c',
+        email: 'vietduc122@gmail.com',
+        phone: '092487777',
+        address: 'Thanh Hóa',
+        sex: 'Nam'
+    },
+    {
+        id: 4,
+        name: 'f',
         email: 'vietduc122@gmail.com',
         phone: '092487777',
         address: 'Thanh Hóa',
@@ -172,6 +192,73 @@ function handleProcessStudent(event) {
     }
 }
 
+// tiếng anh end sort
+function handleSortStudent() {
+    students.sort(
+        function(a, b) {
+            let nameA = a.name.toLowerCase();
+            let nameB = b.name.toLowerCase();
+            if(nameA < nameB) {
+                return -1;
+            }
+            if(nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        }
+    )
+    showListStudent();
+}
+
+// tiếng việt
+function handleSortStudentVn() {
+    students.sort(
+        function(a, b) {
+            let nameA = a.name.toLowerCase();
+            let nameB = b.name.toLowerCase();
+            if(nameA.localeCompare(nameB) < 0) {
+                return -1;
+            }
+            if(nameA.localeCompare(nameB) > 0) {
+                return 1;
+            }
+            return 0;
+        }
+    );
+    showListStudent();
+}
+
+// tìm kiếm dữ liệu
+function handleSearch() {
+    let valueSearch = inputSearch.value.toLowerCase();
+    console.log(valueSearch);
+    // 1. Tìm ra item filter thỏa mãn
+    let studentFilter = students.filter(
+        function(studentItem) {
+            return studentItem.name.toLowerCase().indexOf(valueSearch) !== -1;
+        }
+    );
+    // 2. render data
+    let resultHtml = '';
+    for (let i = 0; i < studentFilter.length; i++) {
+        let student = studentFilter[i];
+        resultHtml = resultHtml + ` <tr>
+                <td>${i + 1}</td>
+                <td>${student.name}</td>
+                <td>${student.email}</td>
+                <td>${student.phone}</td>
+                <td>${student.address}</td>
+                <td>${student.sex}</td>
+                <td>
+                    <button type="button" data-id="${student.id}" class="btn btn-blue">Edit</button>
+                    <button type="button" data-id="${student.id}" class="btn btn-danger">Delete</button>
+                </td>
+            </tr>`
+    }
+    // 2. Đưa html vào trong tbody
+    tbody.innerHTML = resultHtml;
+}
+
 
 // Tạo các sự kiện cho element
 // Hiển thị danh sách student
@@ -179,3 +266,11 @@ showListStudent();
 btnSelector.addEventListener('click', handleAddStudent);
 // thêm sự kiện xóa, edit
 tbody.addEventListener('click', handleProcessStudent);
+// thêm sự kiện cho sort button
+sortButton.addEventListener('click', handleSortStudent);
+// thêm sự kiện cho sort tiếng việt
+sortButtonVn.addEventListener('click', handleSortStudentVn);
+// thêm sự kiện cho search
+btnSearch.addEventListener('click', handleSearch);
+// Thêm sự kiện nhập trong ô input thì cũng chạy hàm này
+inputSearch.addEventListener('keyup', handleSearch);
