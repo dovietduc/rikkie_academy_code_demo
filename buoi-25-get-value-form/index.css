@@ -139,3 +139,25 @@ html {
 .btn-danger {
     background-color: rgb(228, 99, 99);
 }
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: red;
+    font-size: 30px;
+}
+.hide {
+    display: none;
+}
+
+.search_and_sort {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.search_and_sort input {
+    padding: 6px 12px;
+    border-radius: 5px;
+    border: none;
+    border: 1px solid rgb(180, 175, 175);
+}
