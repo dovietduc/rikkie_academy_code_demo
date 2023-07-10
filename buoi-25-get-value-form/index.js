@@ -47,11 +47,27 @@ let students = [
 ];
 
 
+// Hàm này phải thay đổi dựa trên trước hay sau click button
+// Hay chúng ta kiểm tra data có trong localStorage hay chưa?
 function showListStudent() {
+
+    let studentLocal = localStorage.getItem('studentLocalStorage');
+    let studentsInLoop;
+    // chưa click thêm sinh viên
+    if(studentLocal === null) {
+        studentsInLoop = students;
+        // lưu data khi chưa click button
+        localStorage.setItem('studentLocalStorage', JSON.stringify(students));
+    } 
+    // đã click thêm sinh viên
+    else {
+        studentsInLoop = JSON.parse(localStorage.getItem('studentLocalStorage'));
+    }
+
     // 1. Tạo ra mã html từ array data
     let resultHtml = '';
-    for (let i = 0; i < students.length; i++) {
-        let student = students[i];
+    for (let i = 0; i < studentsInLoop.length; i++) {
+        let student = studentsInLoop[i];
         resultHtml = resultHtml + ` <tr>
                 <td>${i + 1}</td>
                 <td>${student.name}</td>
@@ -109,6 +125,7 @@ function handleAddStudent(event) {
     } else {
         document.querySelector('.styled-table').classList.remove('hide');
         document.querySelector('.list_header').innerText = 'Danh sách sinh viên';
+        let students = JSON.parse(localStorage.getItem('studentLocalStorage'));
         // 2. đưa giá trị input vào object, sau đó push vào mảng students
         let objStudentAdd = {
             id: crypto.randomUUID(),
@@ -120,6 +137,10 @@ function handleAddStudent(event) {
         };
         // 3. Tạo dữ liệu html dựa vào value input (tr)
         students.push(objStudentAdd)
+
+        // 3.5 lưu data vào localStorage
+        localStorage.setItem('studentLocalStorage', JSON.stringify(students));
+
         // 4. chèn tr vào trong body (render lại dữ liệu)
         showListStudent();
     }
@@ -134,6 +155,11 @@ function handleProcessStudent(event) {
 
         if (confirmDelete) {
             // delete data
+            
+            // lấy data studens từ localStorage
+            let students = JSON.parse(localStorage.getItem('studentLocalStorage'));
+            console.log(students);
+
             // 1. lấy id delte
             let idDelete = clicked.getAttribute('data-id');
             // 2. tìm index
@@ -144,8 +170,14 @@ function handleProcessStudent(event) {
                     break;
                 }
             }
+            console.log('indexDelete', indexDelete);
+
             // 3. xóa theo index
             students.splice(indexDelete, 1);
+            
+            // 3.5 cập nhật lại localStorage phần tử đã xóa
+            localStorage.setItem('studentLocalStorage', JSON.stringify(students));
+
             if (students.length === 0) {
                 document.querySelector('.styled-table').classList.add('hide');
                 document.querySelector('.list_header').innerText = 'Danh sách trống';
