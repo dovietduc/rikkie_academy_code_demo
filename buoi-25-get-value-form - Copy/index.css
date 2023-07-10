@@ -23,12 +23,11 @@ html {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    margin-top: 20px;
 }
 .form-group label {
     width: 15%;
 }
-.form-group input, .form-group select {
+.form-group input {
     padding: 6px 12px;
     width: 85%;
     border-radius: 5px;
@@ -84,7 +83,7 @@ html {
 
 /* style table */
 .table_list {
-    width: 1300px;
+    width: 1000px;
     margin: 0 auto;
     margin-top: 50px;
 }

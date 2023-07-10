@@ -9,9 +9,6 @@ let sortButton = document.querySelector('.sort_name');
 let sortButtonVn = document.querySelector('.sort_name_vn');
 let btnSearch = document.querySelector('.btn_search');
 let inputSearch = document.querySelector('.search input');
-let selectorCountry = document.querySelector('#country');
-let selectorHobby = document.querySelectorAll('.hobbys');
-console.log(selectorHobby);
 
 
 let students = [
@@ -21,9 +18,7 @@ let students = [
         email: 'vietduc122@gmail.com',
         phone: '092487777',
         address: 'Thanh Hóa',
-        sex: 'Nam',
-        country: 'Việt Nam',
-        hobbys: ['football']
+        sex: 'Nam'
     },
     {
         id: crypto.randomUUID(),
@@ -31,9 +26,7 @@ let students = [
         email: 'vietduc122@gmail.com',
         phone: '092487777',
         address: 'Thanh Hóa',
-        sex: 'Nam',
-        country: 'Việt Nam',
-        hobbys: ['football', 'basketball']
+        sex: 'Nam'
     },
     {
         id: crypto.randomUUID(),
@@ -41,9 +34,7 @@ let students = [
         email: 'vietduc122@gmail.com',
         phone: '092487777',
         address: 'Thanh Hóa',
-        sex: 'Nam',
-        country: 'Việt Nam',
-        hobbys: ['football']
+        sex: 'Nam'
     },
     {
         id: crypto.randomUUID(),
@@ -51,28 +42,32 @@ let students = [
         email: 'vietduc122@gmail.com',
         phone: '092487777',
         address: 'Thanh Hóa',
-        sex: 'Nam',
-        country: 'Việt Nam',
-        hobbys: ['football']
+        sex: 'Nam'
     }
 ];
 
-// set dữ liệu mặc định đến localStorage
-if(localStorage.getItem('studentLocalStorage') === null) {
-    localStorage.setItem('studentLocalStorage', JSON.stringify(students));
-}
 
-
+// Hàm này phải thay đổi dựa trên trước hay sau click button
+// Hay chúng ta kiểm tra data có trong localStorage hay chưa?
 function showListStudent() {
 
-    // khi trang load
-    students = JSON.parse(localStorage.getItem('studentLocalStorage'));
+    let studentLocal = localStorage.getItem('studentLocalStorage');
+    let studentsInLoop;
+    // chưa click thêm sinh viên
+    if(studentLocal === null) {
+        studentsInLoop = students;
+        // lưu data khi chưa click button
+        localStorage.setItem('studentLocalStorage', JSON.stringify(students));
+    } 
+    // đã click thêm sinh viên
+    else {
+        studentsInLoop = JSON.parse(localStorage.getItem('studentLocalStorage'));
+    }
 
     // 1. Tạo ra mã html từ array data
     let resultHtml = '';
-    for (let i = 0; i < students.length; i++) {
-        let student = students[i];
-
+    for (let i = 0; i < studentsInLoop.length; i++) {
+        let student = studentsInLoop[i];
         resultHtml = resultHtml + ` <tr>
                 <td>${i + 1}</td>
                 <td>${student.name}</td>
@@ -80,8 +75,6 @@ function showListStudent() {
                 <td>${student.phone}</td>
                 <td>${student.address}</td>
                 <td>${student.sex}</td>
-                <td>${student.country}</td>
-                <td>${student.hobbys.join(', ')}</td>
                 <td>
                     <button type="button" data-id="${student.id}" class="btn btn-blue">Edit</button>
                     <button type="button" data-id="${student.id}" class="btn btn-danger">Delete</button>
@@ -101,15 +94,6 @@ function handleAddStudent(event) {
     let address = addressSelector.value;
     let phone = phoneSelector.value;
     let sex = document.querySelector('.sex_choose:checked').value;
-    let countryValue = selectorCountry.value;
-    // lấy value cho sở thích, lấy dưới dạng array các value
-    let hobbyValue = [];
-    for(let i = 0; i < selectorHobby.length; i++) {
-        if(selectorHobby[i].checked) {
-            hobbyValue.push(selectorHobby[i].value);
-        }
-    }
-    // kết thúc lấy value sở thích
 
     if (event.target.classList.contains('update')) {
         // 2.update lấy ra id update
@@ -128,13 +112,6 @@ function handleAddStudent(event) {
         students[indexEdit].address = address;
         students[indexEdit].phone = phone;
         students[indexEdit].sex = sex;
-        students[indexEdit].country = countryValue;
-        // hoby update
-        students[indexEdit].hobbys = hobbyValue;
-
-        // 3. Lưu vào localStorage
-        localStorage.setItem('studentLocalStorage', JSON.stringify(students));
-
         // 5. Hiển thị lại dữ liệu students
         showListStudent();
         // 6. Reset form đến trạng thái add
@@ -148,6 +125,7 @@ function handleAddStudent(event) {
     } else {
         document.querySelector('.styled-table').classList.remove('hide');
         document.querySelector('.list_header').innerText = 'Danh sách sinh viên';
+        let students = JSON.parse(localStorage.getItem('studentLocalStorage'));
         // 2. đưa giá trị input vào object, sau đó push vào mảng students
         let objStudentAdd = {
             id: crypto.randomUUID(),
@@ -155,14 +133,12 @@ function handleAddStudent(event) {
             email: email,
             address: address,
             phone: phone,
-            sex: sex,
-            country: countryValue,
-            hobbys: hobbyValue
+            sex: sex
         };
         // 3. Tạo dữ liệu html dựa vào value input (tr)
-        students.push(objStudentAdd);
+        students.push(objStudentAdd)
 
-        // 3.5 lưu lại data mới vào localStorage
+        // 3.5 lưu data vào localStorage
         localStorage.setItem('studentLocalStorage', JSON.stringify(students));
 
         // 4. chèn tr vào trong body (render lại dữ liệu)
@@ -179,6 +155,11 @@ function handleProcessStudent(event) {
 
         if (confirmDelete) {
             // delete data
+            
+            // lấy data studens từ localStorage
+            let students = JSON.parse(localStorage.getItem('studentLocalStorage'));
+            console.log(students);
+
             // 1. lấy id delte
             let idDelete = clicked.getAttribute('data-id');
             // 2. tìm index
@@ -189,10 +170,12 @@ function handleProcessStudent(event) {
                     break;
                 }
             }
+            console.log('indexDelete', indexDelete);
+
             // 3. xóa theo index
             students.splice(indexDelete, 1);
-
-            // 3. Lưu vào localStorage
+            
+            // 3.5 cập nhật lại localStorage phần tử đã xóa
             localStorage.setItem('studentLocalStorage', JSON.stringify(students));
 
             if (students.length === 0) {
@@ -231,18 +214,6 @@ function handleProcessStudent(event) {
         phoneSelector.value = objEdit.phone;
         addressSelector.value = objEdit.address;
         document.querySelector(`input[value=${objEdit.sex}]`).checked = true;
-        // set value selected country
-        selectorCountry.value = objEdit.country;
-        // set checked hobby
-        let hobbyEditNeedChecked = objEdit.hobbys;
-        for(let i = 0; i < selectorHobby.length; i++) {
-            if(hobbyEditNeedChecked.includes(selectorHobby[i].value)) {
-                selectorHobby[i].checked = true;
-            } else {
-                selectorHobby[i].checked = false;
-            }
-        }
-        // set checked hobby
 
         // 5. Thêm trạng thái cho nút submit để phân biệt add hay update
         btnSelector.classList.add('update');
